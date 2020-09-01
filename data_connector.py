@@ -2,12 +2,13 @@ import pymongo
 import configparser
 from datetime import datetime as dt
 
-db_section = 'DB'
+config_section = 'DB'
 params = configparser.ConfigParser()
 params.read('parameters.ini')
 
-client = pymongo.MongoClient('mongodb://localhost:27017/')
-db = client[params.get(db_section, 'database')]
+client = pymongo.MongoClient(params.get(config_section, 'connection_string'))
+db = client[params.get(config_section, 'database')]
+
 players_collection = db['players']
 matches_collection = db['matches']
 
@@ -15,24 +16,23 @@ match_id = 0
 
 
 def new_player(name):
-    players_collection.insert_one({'name': name, 'inserted': dt.now(), 'active': True})
+    statistics = dict()
+    players_collection.insert_one({'name': name, 'inserted': dt.now(), 'active': True, 'statistics': statistics})
 
 
 def free_players():
     players = list()
-    for player in players_collection.find({'active': True}, {}):
+    for player in players_collection.find({'active': True}):
         if not len(list(matches_collection.aggregate([
             {'$match': {'$and': [{'active': True}, {'$or': [
                 {'team_a': player['_id']}, {'team_b': player['_id']}
             ]}]}}
         ]))):
-            players.append(player['_id'])
-
-
+            players.append(player)
     return players
 
 
-def players():
+def all_players():
     return list(players_collection.find())
 
 
@@ -41,10 +41,10 @@ def clear():
     matches_collection.drop()
 
 
-def new_match(team_a, team_b):
+def new_match(players):
     global match_id
     matches_collection.insert_one(
-        {'id': match_id, 'team_a': team_a, 'team_b': team_b, 'inserted': dt.now(), 'active': True})
+        {'id': match_id, 'team_a': players[0:2], 'team_b': players[2:4], 'inserted': dt.now(), 'active': True})
     match_id += 1
 
 
@@ -52,6 +52,7 @@ def match_result(object_id, points_a, points_b):
     matches_collection.update_one(
         {'_id': object_id},
         {'$set': {'result': {'team_a': points_a, 'team_b': points_b}, 'active': False}})
+    update_statistics()
 
 
 def active_matches():
@@ -123,5 +124,3 @@ def update_statistics():
         players_collection.update_one(
             player,
             {'$set': {'statistics': statistics}})
-
-        print(statistics)

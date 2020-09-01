@@ -11,7 +11,7 @@ def hello():
 
 @app.route('/players')
 def show_players():
-    players = data_connector.players()
+    players = data_connector.all_players()
     return render_template('players.html', players=players)
 
 
