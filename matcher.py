@@ -7,6 +7,22 @@ def random_match_players(players):
 
 
 def next_round(players):
+    matches = random_round(players)
+
+
+def score(players):
+
+
+def switch(players):
+    i = random.randrange(0, len(players))
+    j = i
+    while i==j:
+        j = random.randrange(0, len(players))
+    players[i], players[j] = players[j], players[i]
+    return players
+
+
+def random_round(players):
     matches = list()
 
     # Stupid matcher by random selection

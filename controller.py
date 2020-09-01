@@ -18,13 +18,13 @@ data_connector.new_player('Stefan')
 data_connector.new_player('Mario')
 data_connector.new_player('Flo')
 
-players = data_connector.active_players()
-print('Players')
-pp.pprint(players)
+players = data_connector.free_players()
+# print('Players')
+# pp.pprint(players)
 
 next_matches = matcher.next_round(players)
-print('Matches')
-pp.pprint(next_matches)
+# print('Matches')
+# pp.pprint(next_matches)
 for match in next_matches:
     data_connector.new_match(match[0], match[1])
 
@@ -33,5 +33,22 @@ for match in next_matches:
 active_matches = data_connector.active_matches()
 for match in active_matches:
     data_connector.match_result(match['_id'], 21, random.randint(5, 19))
+
+
+next_matches = matcher.next_round(data_connector.free_players())
+print('Matches')
+# pp.pprint(next_matches)
+for match in next_matches:
+    data_connector.new_match(match[0], match[1])
+
+
+active_matches = data_connector.active_matches()
+data_connector.match_result(active_matches[0]['_id'], 21, random.randint(5, 19))
+
+next_matches = matcher.next_round(data_connector.free_players())
+print('Matches')
+# pp.pprint(next_matches)
+for match in next_matches:
+    data_connector.new_match(match[0], match[1])
 
 data_connector.update_statistics()

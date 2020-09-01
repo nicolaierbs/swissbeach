@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>Schweizer System - Players</title>
+    </head>
+    <body>
+        <h1>Schweizer System - Players</h1>
+        <table>
+        <tr>
+            <th>Name</th>
+            <th>Spiele</th>
+            <th>Sätze</th>
+            <th>Satzquotient</th>
+            <th>Punkte</th>
+            <th>Punktquotient</th>
+            <th>Aktiv</th>
+        </tr>
+        {% for player in players %}
+        <tr>
+            <td><a href='/player/{{player._id}}'>{{player.name}}</a></td>
+            {% if player.statistics %}
+            <td>{{ player.statistics.matches }}</td>
+            <td>{{ player.statistics.won_matches }} : {{ player.statistics.lost_matches }}</td>
+                {% if player.statistics.match_ratio%}
+                <td>{{player.statistics.match_ratio|round(2)}}</td>
+                {% else %}
+                <td>-</td>
+                {% endif %}
+            <td>{{ player.statistics.won_points }} : {{ player.statistics.lost_points }}</td>
+                {% if player.statistics.point_ratio%}
+                <td>{{player.statistics.point_ratio|round(2)}}</td>
+                {% else %}
+                <td>-</td>
+                {% endif %}
+            {% else %}
+            <td>- : -</td>
+            <td>- : -</td>
+            {% endif %}
+            <td>{{ player.active }}</td>
+        </tr>
+        {% endfor %}
+        </table>
+    </body>
+</html>

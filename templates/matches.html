@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Schweizer System - Matches</title>
+    </head>
+    <body>
+        <h1>Schweizer System - Matches</h1>
+        <table>
+        <tr>
+            <th>Spiel</th>
+            <th>Erstellt</th>
+            <th>Team A</th>
+            <th>Team B</th>
+            <th>Ergebnis</th>
+            <th>Aktiv</th>
+        </tr>
+        {% for match in matches %}
+        <tr>
+            <td><a href='/match/{{match.id}}'>{{match.id}}</a></td>
+            <td>{{match.inserted}}</td>
+            <td>{{match.team_a_names[0] }} / {{ match.team_a_names[1]}}</td>
+            <td>{{match.team_b_names[0] }} / {{ match.team_b_names[1]}}</td>
+            {% if match.result %}
+            <td>{{ match.result.team_a }} : {{ match.result.team_b }}</td>
+            {% else %}
+            <td>- : -</td>
+            {% endif %}
+            <td>{{ match.active }}</td>
+        </tr>
+        {% endfor %}
+        </table>
+    </body>
+</html>
