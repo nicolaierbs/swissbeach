@@ -17,8 +17,9 @@ def registration():
 
 
 @app.route('/')
-def hello():
-    return "Hello World!"
+@app.route('/home')
+def home():
+    return render_template('welcome.html')
 
 
 @app.route('/players')
