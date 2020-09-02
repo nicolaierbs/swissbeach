@@ -34,6 +34,7 @@ def optimize(players):
 
 
 def next_match(players):
+    random.shuffle(players)
     # Select min. 4 players with lowest number of matches
     if len(players) < 4:
         return None
