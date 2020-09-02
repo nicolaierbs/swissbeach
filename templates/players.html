@@ -1,43 +1,44 @@
-<html>
-    <head>
-        <title>Schweizer System - Players</title>
-    </head>
-    <body>
-        <h1>Schweizer System - Players</h1>
-        <table>
-        <tr>
-            <th>Name</th>
-            <th>Spiele</th>
-            <th>Sätze</th>
-            <th>Satzquotient</th>
-            <th>Punkte</th>
-            <th>Punktquotient</th>
-            <th>Aktiv</th>
-        </tr>
+{% extends "layout.html" %}
+{% block title %}Players{% endblock %}
+{% block content %}
+<table
+  id="players" data-toggle="table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+        <th class="th-sm" data-sortable="true">Name</th>
+      <th class="th-sm" data-sortable="true">Matches</th>
+      <th class="th-sm" data-sortable="true">Sets</th>
+      <th class="th-sm" data-sortable="true">Set Ratio</th>
+      <th class="th-sm" data-sortable="true">Points</th>
+      <th class="th-sm" data-sortable="true">Point Ratio</th>
+      <th class="th-sm" data-sortable="true">Active</th>
+    </tr>
+  </thead>
+  <tbody>
         {% for player in players %}
         <tr>
             <td><a href='/player/{{player._id}}'>{{player.name}}</a></td>
-            {% if player.statistics %}
+            {% if player.statistics.matches %}
             <td>{{ player.statistics.matches }}</td>
             <td>{{ player.statistics.won_matches }} : {{ player.statistics.lost_matches }}</td>
-                {% if player.statistics.match_ratio%}
-                <td>{{player.statistics.match_ratio|round(2)}}</td>
-                {% else %}
-                <td>-</td>
-                {% endif %}
+            <td>{{player.statistics.match_ratio|round(2)}}</td>
             <td>{{ player.statistics.won_points }} : {{ player.statistics.lost_points }}</td>
-                {% if player.statistics.point_ratio%}
-                <td>{{player.statistics.point_ratio|round(2)}}</td>
-                {% else %}
-                <td>-</td>
-                {% endif %}
+            <td>{{player.statistics.point_ratio|round(2)}}</td>
             {% else %}
-            <td>- : -</td>
-            <td>- : -</td>
+           <td>0</td>
+             <td>0 : 0</td>
+            <td>n.a.</td>
+            <td>0 : 0</td>
+            <td>n.a.</td>
             {% endif %}
-            <td>{{ player.active }}</td>
+            {% if player.active %}
+            <td><i class="fa fa-check"></i></td>
+            {% else %}
+            <td></td>
+            {% endif %}
         </tr>
         {% endfor %}
-        </table>
-    </body>
-</html>
+  </tbody>
+</table>
+
+{% endblock %}

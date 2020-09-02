@@ -34,7 +34,8 @@ def one_round():
 for i in range(20):
     one_round()
 
-match_list = sorted([str(sorted([sorted(match['team_a_names']), sorted(match['team_b_names'])])) for match in data_connector.matches_with_names()])
+match_list = sorted([str(sorted([sorted(match['team_a_names']), sorted(match['team_b_names'])]))
+                     for match in data_connector.matches_with_names()])
 for match in match_list:
     print(match)
 print(len(list(set(match_list)))/len(match_list))

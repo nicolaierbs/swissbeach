@@ -32,6 +32,8 @@ def optimize(players):
 
 def next_match(players):
     # Select min. 4 players with lowest number of matches
+    if len(players) < 4:
+        return None
     selected_players = list()
     last_match_count = 0
     for player in sorted(players, key=match_count, reverse=False):
