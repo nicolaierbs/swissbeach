@@ -9,27 +9,38 @@
         <th class="th-sm" data-sortable="true">Created</th>
         <th class="th-sm" data-sortable="true">Team A</th>
         <th class="th-sm" data-sortable="true">Team B</th>
-        <th class="th-sm" data-sortable="true">Result</th>
-        <th class="th-sm" data-sortable="true">Ongoing</th>
         </tr>
     </thead>
     <tbody>
         {% for match in matches %}
         <tr>
-            <td><a href='/match/{{match.id}}'>{{match.id}}</a></td>
+            <td>{{match.id}}</td>
             <td>{{match.inserted}}</td>
-            <td>{{match.team_a_names[0] }} / {{ match.team_a_names[1]}}</td>
-            <td>{{match.team_b_names[0] }} / {{ match.team_b_names[1]}}</td>
-            {% if match.result %}
-            <td>{{ match.result.team_a }} : {{ match.result.team_b }}</td>
+
+            <td>
+                {% if match.result and match.result.team_a_won %}
+            <b>{{match.team_a_names[0] }} / {{ match.team_a_names[1]}}</b>
             {% else %}
-            <td>- : -</td>
+            {{match.team_a_names[0] }} / {{ match.team_a_names[1]}}
             {% endif %}
-            {% if match.active %}
-            <td><i class="fa fa-check"></i></td>
+                {% if not match.result %}
+                <a href="result/{{match._id}}/a" class="btn btn-success"><i class="fas fa-beer"></i></a>
+                {% endif %}
+
+            </td>
+
+            <td>
+            {% if match.result and match.result.team_b_won %}
+            <b>{{match.team_b_names[0] }} / {{ match.team_b_names[1]}}</b>
             {% else %}
-            <td></td>
+            {{match.team_b_names[0] }} / {{ match.team_b_names[1]}}
             {% endif %}
+
+                {% if not match.result %}
+                <a href="result/{{match._id}}/b" class="btn btn-success"><i class="fas fa-beer"></i></a>
+                {% endif %}
+            </td>
+
         </tr>
         {% endfor %}
     </tbody>

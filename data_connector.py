@@ -81,6 +81,11 @@ def matches_with_names():
     return matches_with_names
 
 
+def toggle_player(player_id):
+    active = players_collection.find_one({'_id': player_id})['active']
+    players_collection.update_one({'_id': player_id}, {'$set': {'active': not active}})
+
+
 def update_statistics():
     for player in players_collection.find({}, {}):
         # collect all match results
