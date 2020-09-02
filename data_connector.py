@@ -48,10 +48,10 @@ def new_match(players):
     match_id += 1
 
 
-def match_result(object_id, points_a, points_b):
+def match_result(object_id, team_a_won, team_b_won):
     matches_collection.update_one(
         {'_id': object_id},
-        {'$set': {'result': {'team_a': points_a, 'team_b': points_b}, 'active': False}})
+        {'$set': {'result': {'team_a_won': team_a_won, 'team_b_won': team_b_won}, 'active': False}})
     update_statistics()
 
 
@@ -59,15 +59,15 @@ def active_matches():
     return list(matches_collection.find({'active': True}))
 
 
-def player_name(object_id):
+def name(object_id):
     return players_collection.find_one({'_id': object_id}, {'name': 1})['name']
 
 
 def player_names(object_ids):
-    player_names = list()
+    names = list()
     for object_id in object_ids:
-        player_names.append(player_name(object_id))
-    return player_names
+        names.append(name(object_id))
+    return names
 
 
 def matches_with_names():
@@ -81,45 +81,25 @@ def matches_with_names():
     return matches_with_names
 
 
-def compute_statistics(results):
-    statistics = dict()
-    statistics['count'] = len(results)
-    won_matches = 0
-    lost_matches = 0
-    won_points = 0
-    lost_points = 0
-    for result in results:
-        won_points += result[0]
-        lost_points += result[1]
-        if result[0] > result[1]:
-            won_matches += 1
-        else:
-            lost_matches += 1
-    statistics['matches'] = won_matches + lost_matches
-    statistics['won_matches'] = won_matches
-    statistics['lost_matches'] = lost_matches
-    statistics['won_points'] = won_points
-    statistics['lost_points'] = lost_points
-    if len(results) > 0:
-        statistics['point_ratio'] = won_points / (lost_points + won_points)
-        statistics['match_ratio'] = won_matches / (lost_matches + won_matches)
-    return statistics
-
-
 def update_statistics():
     for player in players_collection.find({}, {}):
         # collect all match results
         results = list()
-        for result in matches_collection.find(
-                {'active': False, 'team_a': player['_id']},
-                {'result.team_a': 1, 'result.team_b': 1}):
-            results.append((result['result']['team_a'], result['result']['team_b']))
-        for result in matches_collection.find(
-                {'active': False, 'team_b': player['_id']},
-                {'result.team_a': 1, 'result.team_b': 1}):
-            results.append((result['result']['team_b'], result['result']['team_a']))
+        won = 0
+        lost = 0
+        won += matches_collection.count_documents({'active': False, 'team_a': player['_id'], 'result.team_a_won': True})
+        won += matches_collection.count_documents({'active': False, 'team_b': player['_id'], 'result.team_b_won': True})
+        lost += matches_collection.count_documents({'active': False, 'team_a': player['_id'], 'result.team_a_won': False})
+        lost += matches_collection.count_documents({'active': False, 'team_b': player['_id'], 'result.team_b_won': False})
 
-        statistics = compute_statistics(results)
+        statistics = dict()
+        statistics['matches'] = won + lost
+        statistics['won'] = won
+        statistics['lost'] = lost
+        if won > 0:
+            statistics['percentage'] = won / (won + lost)
+        else:
+            statistics['percentage'] = 0
 
         players_collection.update_one(
             player,

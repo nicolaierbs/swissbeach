@@ -26,7 +26,8 @@ def one_round():
     # Get current matches and add some random results
     active_matches = data_connector.active_matches()
     for match in active_matches:
-        data_connector.match_result(match['_id'], 21, random.randint(10, 19))
+        winner = random.choice([True, False])
+        data_connector.match_result(match['_id'], winner, not winner)
         if random.randint(0, 2) % 2:
             break
 
