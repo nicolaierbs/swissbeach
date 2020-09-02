@@ -86,6 +86,32 @@ def toggle_player(player_id):
     players_collection.update_one({'_id': player_id}, {'$set': {'active': not active}})
 
 
+def team_count(players):
+    return matches_collection.count_documents(
+        {'$or': [
+            {'$and': [{'team_a': players[0]['_id']}, {'team_a': players[1]['_id']}]},
+            {'$and': [{'team_b': players[0]['_id']}, {'team_b': players[1]['_id']}]},
+        ]
+        }
+    )
+
+
+def match_count(players):
+    return matches_collection.count_documents(
+        {'$or': [
+            {'$and': [
+                {'team_a': players[0]['_id']}, {'team_a': players[1]['_id']},
+                {'team_b': players[2]['_id']}, {'team_b': players[3]['_id']}
+            ]},
+            {'$and': [
+                {'team_b': players[0]['_id']}, {'team_b': players[1]['_id']},
+                {'team_a': players[2]['_id']}, {'team_a': players[3]['_id']},
+            ]},
+        ]
+        }
+    )
+
+
 def update_statistics():
     for player in players_collection.find({}, {}):
         # collect all match results

@@ -8,15 +8,10 @@ pp = pprint.PrettyPrinter(indent=4)
 
 data_connector.clear()
 
-data_connector.new_player('Nicolai')
-data_connector.new_player('Ari')
-data_connector.new_player('Sven')
-data_connector.new_player('Carsten')
-data_connector.new_player('Mark')
-data_connector.new_player('Valle')
-data_connector.new_player('Stefan')
-data_connector.new_player('Mario')
-data_connector.new_player('Flo')
+data_connector.new_player('A')
+data_connector.new_player('B')
+data_connector.new_player('C')
+data_connector.new_player('D')
 
 
 def one_round():
