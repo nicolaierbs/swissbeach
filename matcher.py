@@ -1,16 +1,11 @@
 import random
-import configparser
 import data_connector
 
-config_section = 'MATCHER'
-params = configparser.ConfigParser()
-params.read('parameters.ini')
-
-weight_match_count = params.getint(config_section, 'weight_match_count')
-weight_won_matches_count = params.getint(config_section, 'weight_won_matches_count')
-weight_equal_team_strength_matches = params.getint(config_section, 'weight_equal_team_strength_matches')
-weight_same_match = params.getint(config_section, 'weight_same_match')
-weight_same_team = params.getint(config_section, 'weight_same_team')
+weight_match_count = 20
+weight_won_matches_count = 10
+weight_equal_team_strength_matches = 2
+weight_same_match = 20
+weight_same_team = 5
 
 
 def match_count(player):
