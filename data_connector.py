@@ -1,13 +1,22 @@
 import pymongo
-import configparser
 from datetime import datetime as dt
+import os
 
-config_section = 'DB'
-params = configparser.ConfigParser()
-params.read('parameters.ini')
 
-client = pymongo.MongoClient(params.get(config_section, 'connection_string'))
-db = client[params.get(config_section, 'database')]
+client = pymongo.MongoClient()
+db = client.test
+
+
+# Get environment variables
+password = os.getenv('SWISSBEACH_DB_PASSWORD')
+database = 'vcor'
+
+connection_string = \
+    "mongodb+srv://swissbeach_admin:{}@cluster0.5ozes.mongodb.net/{}?retryWrites=true&w=majority".format(
+        password, database)
+
+client = pymongo.MongoClient(connection_string)
+db = client[database]
 
 players_collection = db['players']
 matches_collection = db['matches']
@@ -15,9 +24,9 @@ matches_collection = db['matches']
 match_id = 0
 
 
-def new_player(name):
+def new_player(player_name):
     statistics = dict()
-    players_collection.insert_one({'name': name, 'inserted': dt.now(), 'active': True, 'statistics': statistics})
+    players_collection.insert_one({'name': player_name, 'inserted': dt.now(), 'active': True, 'statistics': statistics})
 
 
 def free_players():
