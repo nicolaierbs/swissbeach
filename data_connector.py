@@ -42,7 +42,7 @@ def free_players():
 
 
 def all_players():
-    return list(players_collection.find())
+    return list(players_collection.find(sort=[("statistics.percentage", -1)]))
 
 
 def clear():
