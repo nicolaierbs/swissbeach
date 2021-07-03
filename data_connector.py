@@ -21,7 +21,11 @@ db = client[database]
 players_collection = db['players']
 matches_collection = db['matches']
 
-match_id = matches_collection.find_one(sort=[("id", -1)])['id'] + 1
+last_match = matches_collection.find_one(sort=[("id", -1)])
+if last_match:
+    match_id = last_match['id'] + 1
+else:
+    match_id = 1
 
 
 def new_player(player_name):

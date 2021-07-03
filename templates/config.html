@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}Configuration{% endblock %}
+{% block content %}
+<div id="configtable">
+<table
+  id="config" data-toggle="table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+        <th class="th-sm">Parameter</th>
+        <th class="th-sm">Weight</th>
+    </tr>
+  </thead>
+
+  <tbody>
+        {% for parameter in config %}
+        <tr>
+            <td>{{parameter}}</td>
+            <td>{{ config[parameter] }}</td>
+        </tr>
+        {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<div id="content" style="width: 50%;">
+<form class="form-inline" action="cleardata" method="get">
+  <button type="submit" class="btn btn-danger">Clear all data</button>
+</form>
+</div>
+
+
+{% endblock %}

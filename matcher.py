@@ -1,11 +1,16 @@
 import random
 import data_connector
 
-weight_match_count = 20
-weight_won_matches_count = 10
-weight_equal_team_strength_matches = 2
-weight_same_match = 20
-weight_same_team = 5
+config = dict()
+config['weight_match_count'] = 20
+config['weight_won_matches_count'] = 10
+config['weight_equal_team_strength_matches'] = 2
+config['weight_same_match'] = 20
+config['weight_same_team'] = 5
+
+
+def tournament_config():
+    return config
 
 
 def match_count(player):
@@ -46,19 +51,19 @@ def next_match(players):
 
 def score(players):
     value = 0
-    value += weight_match_count * sum([match_count(player) for player in players[0:4]])
-    value += weight_won_matches_count * abs(
+    value += config['weight_match_count'] * sum([match_count(player) for player in players[0:4]])
+    value += config['weight_won_matches_count'] * abs(
         sum([player['statistics'].get('won', 0) for player in players[0:2]])
         - sum([player['statistics'].get('won', 0) for player in players[2:4]]))
-    value += weight_equal_team_strength_matches * (
+    value += config['weight_equal_team_strength_matches'] * (
             abs(players[0]['statistics'].get('won', 0) - players[1]['statistics'].get('won', 0))
             + abs(players[2]['statistics'].get('won', 0) - players[3]['statistics'].get('won', 0))
     )
 
     # print('same match ' + str(data_connector.match_count(players[0:4]))
     #      + ' - same team ' + str((data_connector.team_count(players[0:2]) + data_connector.team_count(players[2:4]))))
-    value += weight_same_match * data_connector.match_count(players[0:4])
-    value += weight_same_team * (data_connector.team_count(players[0:2]) + data_connector.team_count(players[2:4]))
+    value += config['weight_same_match'] * data_connector.match_count(players[0:4])
+    value += config['weight_same_team'] * (data_connector.team_count(players[0:2]) + data_connector.team_count(players[2:4]))
 
     return value
 

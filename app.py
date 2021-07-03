@@ -34,6 +34,18 @@ def show_matches():
     return render_template('matches.html', matches=matches)
 
 
+@app.route('/config')
+def show_config():
+    config = matcher.tournament_config()
+    return render_template('config.html', config=config)
+
+
+@app.route('/cleardata')
+def clear_data():
+    data_connector.clear()
+    return show_players()
+
+
 @app.route('/playertoggle/<string:player_id>')
 def toggle_player(player_id):
     data_connector.toggle_player(ObjectId(player_id))
