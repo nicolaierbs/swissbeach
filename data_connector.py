@@ -21,12 +21,6 @@ db = client[database]
 players_collection = db['players']
 matches_collection = db['matches']
 
-last_match = matches_collection.find_one(sort=[("id", -1)])
-if last_match:
-    match_id = last_match['id'] + 1
-else:
-    match_id = 1
-
 
 def new_player(player_name):
     statistics = dict()
@@ -55,10 +49,8 @@ def clear():
 
 
 def new_match(players):
-    global match_id
     matches_collection.insert_one(
-        {'id': match_id, 'team_a': players[0:2], 'team_b': players[2:4], 'inserted': dt.now(), 'active': True})
-    match_id += 1
+        {'team_a': players[0:2], 'team_b': players[2:4], 'inserted': dt.now(), 'active': True})
 
 
 def match_result(object_id, team_a_won, team_b_won):
@@ -85,13 +77,17 @@ def player_names(object_ids):
 
 def matches_with_names():
     matches = list(matches_collection.find())
-    matches_with_names = list()
+    matches_player_names = list()
     for match in matches:
         match['team_a_names'] = player_names(match['team_a'])
         match['team_b_names'] = player_names(match['team_b'])
         match['inserted'] = match['inserted'].strftime("%H:%M")
-        matches_with_names.append(match)
-    return matches_with_names
+        matches_player_names.append(match)
+    return matches_player_names
+
+
+def delete_match(match_id):
+    matches_collection.delete_one({'_id': match_id})
 
 
 def toggle_player(player_id):

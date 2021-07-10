@@ -34,6 +34,13 @@ def show_matches():
     return render_template('matches.html', matches=matches)
 
 
+@app.route('/deletematch/<string:match_id>')
+def delete_match(match_id):
+    data_connector.delete_match(ObjectId(match_id))
+    matches = data_connector.matches_with_names()
+    return redirect(url_for('show_matches'))
+
+
 @app.route('/config')
 def show_config():
     config = matcher.tournament_config()

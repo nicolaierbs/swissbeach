@@ -2,11 +2,11 @@ import random
 import data_connector
 
 config = dict()
-config['weight_match_count'] = 20
-config['weight_won_matches_count'] = 10
-config['weight_equal_team_strength_matches'] = 2
-config['weight_same_match'] = 20
-config['weight_same_team'] = 5
+config['weight_match_count'] = 5
+config['weight_won_matches_count'] = 3
+config['weight_equal_team_strength_matches'] = 1
+config['weight_same_match'] = 2
+config['weight_same_team'] = 3
 
 
 def tournament_config():
