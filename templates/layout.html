@@ -1,11 +1,11 @@
 <!doctype html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
-    <title>Swiss Tournament - {% block title %}{% endblock %}</title>
+    <title>Beachvolleyball im Schweizer System - {% block title %}{% endblock %}</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,13 +28,19 @@
          </div>
     </nav>
 
-    <div id="content" style="width: 90%;">
+    <div id="content" style="width: 90%; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px">
         {% block content %}{% endblock %}
     </div>
 
     <div id="footer">
-      {% block footer %}
-      &copy; Copyright 2021 by <a href="https://www.erbs.eu">Nicolai Erbs</a>.
+        {% block footer %}
+        <div id="content" style="width: 90%; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px">
+            <p>
+                Entwickelt von <a href="https://www.erbs.eu">Nicolai Erbs</a>.</br>
+                Quellcode auf <a href="https://github.com/nicolaierbs/swissbeach">GitHub</a>.</br>
+                Weitere Informationen: <a href="/datausage">Datenschutz</a> und <a href="/contact">Impressum</a>
+            </p>
+        </div>
       {% endblock %}
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

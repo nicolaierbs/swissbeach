@@ -47,6 +47,16 @@ def show_config():
     return render_template('config.html', config=config)
 
 
+@app.route('/datausage')
+def show_datausage():
+    return render_template('datausage.html')
+
+
+@app.route('/contact')
+def show_contact():
+    return render_template('contact.html')
+
+
 @app.route('/cleardata')
 def clear_data():
     data_connector.clear()
