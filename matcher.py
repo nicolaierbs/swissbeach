@@ -1,5 +1,6 @@
 import random
 import data_connector
+import time
 
 config = dict()
 config['weight_match_count'] = 5
@@ -7,6 +8,7 @@ config['weight_won_matches_count'] = 3
 config['weight_equal_team_strength_matches'] = 1
 config['weight_same_match'] = 2
 config['weight_same_team'] = 3
+config['weight_equal_type'] = 1
 
 
 def tournament_config():
@@ -18,13 +20,17 @@ def match_count(player):
 
 
 def optimize(players):
+    start = time.time()
     best_combination = players
-    for i in range(10):
+    for i in range(6):
         players = switch(best_combination.copy())
         if score(players) < score(best_combination):
             best_combination = players
 
     # Debug the final match
+    end = time.time()
+    print('Duration for computation: ' + str(end - start))
+
     print(str([player['statistics'].get('won', 0) for player in best_combination[0:4]])
           + ' - '
           + str([match_count(player) for player in best_combination[0:4]]))
@@ -49,6 +55,12 @@ def next_match(players):
     return optimize(selected_players)
 
 
+def type_difference(players, marker):
+    return abs(
+        sum([player['markers'][marker] for player in players[0:2]])
+        - sum([player['markers'][marker] for player in players[2:4]]))
+
+
 def score(players):
     value = 0
     value += config['weight_match_count'] * sum([match_count(player) for player in players[0:4]])
@@ -59,11 +71,14 @@ def score(players):
             abs(players[0]['statistics'].get('won', 0) - players[1]['statistics'].get('won', 0))
             + abs(players[2]['statistics'].get('won', 0) - players[3]['statistics'].get('won', 0))
     )
+    value += config['weight_equal_type'] * sum([type_difference(players, marker)
+                                                for marker in players[0]['markers'].keys()])
 
     # print('same match ' + str(data_connector.match_count(players[0:4]))
     #      + ' - same team ' + str((data_connector.team_count(players[0:2]) + data_connector.team_count(players[2:4]))))
     value += config['weight_same_match'] * data_connector.match_count(players[0:4])
-    value += config['weight_same_team'] * (data_connector.team_count(players[0:2]) + data_connector.team_count(players[2:4]))
+    value += config['weight_same_team'] * (
+                data_connector.team_count(players[0:2]) + data_connector.team_count(players[2:4]))
 
     return value
 
