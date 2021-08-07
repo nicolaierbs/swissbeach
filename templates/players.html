@@ -10,13 +10,14 @@
         <th class="th-sm" data-sortable="true">Spiele</th>
         <th class="th-sm" data-sortable="true">Siege/Niederlagen</th>
         <th class="th-sm" data-sortable="true">Quote</th>
+        <th class="th-sm" data-sortable="false">Marker</th>
         <th class="th-sm" data-sortable="true">aktiv?</th>
     </tr>
   </thead>
   <tbody>
         {% for player in players %}
         <tr>
-            <td><a href='/player/{{player._id}}'>{{player.name}}</a></td>
+            <td>{{player.name}}</td>
             {% if player.statistics.matches %}
             <td>{{ player.statistics.matches }}</td>
             <td>{{ player.statistics.won }} : {{ player.statistics.lost }}</td>
@@ -26,6 +27,26 @@
              <td>0 : 0</td>
             <td>n.a.</td>
             {% endif %}
+            <td>
+                {% if player.markers.child %}
+                <a href="markertoggle/{{player._id}}/child" class="btn btn-info"><i class="fa fa-child"></i></a>
+                {% else %}
+                <a href="markertoggle/{{player._id}}/child" class="btn btn"><i class="fa fa-child"></i></a>
+                {% endif %}
+
+                {% if player.markers.female %}
+                <a href="markertoggle/{{player._id}}/female" class="btn btn-info"><i class="fa fa-venus"></i></a>
+                {% else %}
+                <a href="markertoggle/{{player._id}}/female" class="btn btn"><i class="fa fa-venus"></i></a>
+                {% endif %}
+
+                {% if player.markers.male %}
+                <a href="markertoggle/{{player._id}}/male" class="btn btn-info"><i class="fa fa-mars"></i></a>
+                {% else %}
+                <a href="markertoggle/{{player._id}}/male" class="btn btn"><i class="fa fa-mars"></i></a>
+                {% endif %}
+
+            </td>
             {% if player.active %}
             <td><a href="playertoggle/{{player._id}}" class="btn btn-success"><i class="fa fa-check"></i></a></td>
             {% else %}

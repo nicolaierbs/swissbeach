@@ -28,6 +28,12 @@ def show_players():
     return render_template('players.html', players=players)
 
 
+@app.route('/markertoggle/<string:player_id>/<string:marker>')
+def change_marker(player_id, marker):
+    data_connector.change_marker(ObjectId(player_id), marker)
+    return redirect(url_for('show_players'))
+
+
 @app.route('/matches')
 def show_matches():
     matches = data_connector.matches_with_names()

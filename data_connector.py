@@ -24,7 +24,16 @@ matches_collection = db['matches']
 
 def new_player(player_name):
     statistics = dict()
-    players_collection.insert_one({'name': player_name, 'inserted': dt.now(), 'active': True, 'statistics': statistics})
+    last_player_id=1
+    players_collection.insert_one({'name': player_name,
+                                   'inserted': dt.now(),
+                                   'active': True,
+                                   'statistics': statistics,
+                                   'markers': {
+                                       'child': False,
+                                       'female': False,
+                                       'male': False
+                                   }})
 
 
 def free_players():
@@ -93,6 +102,11 @@ def delete_match(match_id):
 def toggle_player(player_id):
     active = players_collection.find_one({'_id': player_id})['active']
     players_collection.update_one({'_id': player_id}, {'$set': {'active': not active}})
+
+
+def change_marker(player_id, marker):
+    state = players_collection.find_one({'_id': player_id})['markers'][marker]
+    players_collection.update_one({'_id': player_id}, {'$set': {'markers.' + marker: not state}})
 
 
 def team_count(players):
