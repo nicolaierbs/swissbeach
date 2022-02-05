@@ -82,7 +82,7 @@ def matches_with_names(database):
     for match in matches:
         match['team_a_names'] = player_names(match['team_a'], database)
         match['team_b_names'] = player_names(match['team_b'], database)
-        match['inserted'] = match['inserted'].strftime("%H:%M")
+        match['inserted'] = match['inserted'].strftime("%d.%m. %H:%M")
         matches_player_names.append(match)
     return matches_player_names
 
