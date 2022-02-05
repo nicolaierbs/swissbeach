@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_bootstrap import Bootstrap
 from bson import ObjectId
+import re
 
 import data_connector, matcher
 
 app = Flask(__name__)
 app.config.from_mapping(SECRET_KEY=b'\xd6\x04\xbdj\xfe\xed$c\x1e@\xad\x0f\x13,@G')
+
 
 # data_connector.clear()
 
@@ -16,11 +18,25 @@ def registration(database):
     return redirect(url_for('show_players', database=database))
 
 
+@app.route('/starttournament', methods=['POST'])
+def start_tournament():
+    tournament_name = request.form.get('tournament_name')
+    tournament_name = re.sub(r'\W+', '', tournament_name)
+    if tournament_name:
+        return redirect('/' + tournament_name + '/home')
+    else:
+        return redirect('/')
+
+
 @app.route('/')
 @app.route('/home')
-@app.route('/<string:database>/home')
-def home(database = None):
+def home(database=None):
     return render_template('welcome.html', database=database)
+
+
+@app.route('/<string:database>/home')
+def start(database=None):
+    return render_template('start.html', database=database)
 
 
 @app.route('/<string:database>/players')

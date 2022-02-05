@@ -2,4 +2,60 @@
 {% block title %}Welcome{% endblock %}
 {% block content %}
 
+<div class="container">
+    <h1>Der flexible Turniermanager</h1>
+
+    <p>
+        Willkommen zu Swiss Beach, dem Turniermanager für Beachvolleyball, Spikeball und mehr.
+        Mit diesem System kannst du dein Turnier für Sportarten im Modus 2 gegen 2 organisieren.
+        Mit Swiss Beach...
+    <ul>
+        <li>ändern sich Teams kontinuierlich</li>
+        <li>werden spannende Matches auf Basis der Rangliste zugelost</li>
+        <li>können Spielerinnen und Spieler jederzeit einsteigen oder pausieren</li>
+        <li>hat jeder zu jeder Zeit eine Übersicht der kommenden Matches und der Rangliste</li>
+        <li>ist die Orga kostenlos und direkt einsetzbar</li>
+    </ul>
+    </p>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col">
+            <h4>Demo</h4>
+            <p>
+                Experimentiere mit einem vorhanden Turnier, um besser zu verstehen, wie du Swiss Beach nutzen kannst.
+            </p>
+            <form method="get" action="/demo/home">
+                <button type="submit" class="btn btn-primary mb-2">Demo Turnier</button>
+            </form>
+        </div>
+
+        <div class="col">
+            <h4>Dein Turnier</h4>
+            <p>
+                Start dein eigenes Turnier! Wähle einen Namen für das Turnier
+            </p>
+            <form class="form-inline" action="starttournament" method="post">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="tournament_name" class="sr-only">Name</label>
+                    <input type="text" class="form-control" name="tournament_name" id="tournament_name"
+                           placeholder="Name">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Start</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/SXcNezuzLHY" title="Swiss Beach"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+</div>
+
+</div>
+
+
 {% endblock %}

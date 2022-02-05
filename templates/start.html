@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}Start{% endblock %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2>Dein Turnier {{database}}</h2>
+    <p>
+        Hier kannst du für dein Turnier Spielerinnen und Spieler anlegen, Matches starten und Ergebnisse eingeben.
+    </p>
+</div>
+
+<div class="container mt-4">
+    <h3>Wie trage ich Spielerinnen und Spieler ein?</h3>
+    <p>
+        Um neue Spielerinnen und Spieler einzugeben, gehe auf den Reiter <a href="players">Players</a>
+    </p>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/SXcNezuzLHY" title="Swiss Beach"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+</div>
+
+<div class="container mt-4">
+    <h3>Wie erstelle ich Spiele?</h3>
+    <p>
+        Neue Spiele können erstellt werden, wenn mindestens vier Spielerinnen oder Spieler aktuell spielfrei haben.
+        Um neue Spiele zu erstellen, gehe auf den Tab <a href="matches">Matches</a>
+    </p>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/SXcNezuzLHY" title="Swiss Beach"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+</div>
+
+<div class="container mt-4" id="contentdemo" style="width: 50%;">
+    <form method="get" action="/home">
+        <button type="submit" class="btn btn-primary mb-2">Zurück zum Start</button>
+    </form>
+</div>
+
+{% endblock %}
