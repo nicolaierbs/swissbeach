@@ -91,7 +91,7 @@ def clear_data(database):
 @app.route('/<string:database>/playertoggle/<string:player_id>')
 def toggle_player(database, player_id):
     data_connector.toggle_player(ObjectId(player_id), database)
-    return redirect(url_for('show_players'), database=database)
+    return redirect(url_for('show_players', database=database))
 
 
 @app.route('/<string:database>/result/<string:match_id>/<string:winner>')
