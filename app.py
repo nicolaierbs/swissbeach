@@ -86,6 +86,7 @@ def clear_data(database):
     return show_players(database)
 
 
+
 @app.route('/<string:database>/playertoggle/<string:player_id>')
 def toggle_player(database, player_id):
     data_connector.toggle_player(ObjectId(player_id), database)
