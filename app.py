@@ -11,6 +11,14 @@ st.set_page_config(page_title="Swiss Beach", page_icon="🏐", layout="wide")
 if 'database' not in st.session_state:
     st.session_state.database = None
 
+# Check for database parameter in URL
+query_params = st.query_params
+if 'db' in query_params and not st.session_state.database:
+    db_name = query_params['db']
+    if db_name and re.match(r'^[a-zA-Z0-9]+$', db_name):
+        st.session_state.database = db_name
+        st.switch_page("pages/Spieler.py")
+
 # Main content - Welcome page
 st.title("Der flexible Turniermanager")
 st.write("""
@@ -30,7 +38,7 @@ with col1:
     st.write("Experimentiere mit einem vorhanden Turnier, um besser zu verstehen, wie du Swiss Beach nutzen kannst.")
     if st.button("Demo Turnier"):
         st.session_state.database = 'demo'
-        st.switch_page("pages/players.py")
+        st.switch_page("pages/Spieler.py")
 
 with col2:
     st.subheader("Dein Turnier")
@@ -41,4 +49,4 @@ with col2:
         if submitted and tournament_name:
             tournament_name = re.sub(r'\W+', '', tournament_name)
             st.session_state.database = tournament_name
-            st.switch_page("pages/players.py")
+            st.switch_page("pages/Spieler.py")
